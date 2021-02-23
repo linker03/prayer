@@ -1,18 +1,26 @@
 import {put, takeEvery, call} from 'redux-saga/effects';
-import Axios from 'axios';
-import {setLogin, setError} from '../redux/store';
-import {sagaActions} from './sagaActions';
+import {callAPI} from '../../utils/callApi';
+import {setLogin, setError} from './reducer';
+import {sagaAuthActions} from './actions';
 
-let callAPI = async ({url, method, data, headers}) => {
-  return await Axios({
-    url,
-    method,
-    data,
-    headers,
-  });
+type loginAction = {
+  type: string;
+  payload: {
+    email: string;
+    password: string;
+  };
 };
 
-export function* loginSaga(action) {
+type userCreateAction = {
+  type: string;
+  payload: {
+    email: string;
+    name: string;
+    password: string;
+  };
+};
+
+export function* loginSaga(action: loginAction) {
   try {
     const response = yield call(() =>
       callAPI({
@@ -35,7 +43,7 @@ export function* loginSaga(action) {
   }
 }
 
-export function* createUserSaga(action) {
+export function* createUserSaga(action: userCreateAction) {
   try {
     const response = yield call(() =>
       callAPI({
@@ -54,7 +62,7 @@ export function* createUserSaga(action) {
   }
 }
 
-export default function* paramsWatcher() {
-  yield takeEvery(sagaActions.LOGIN_USER_SAGA, loginSaga);
-  yield takeEvery(sagaActions.CREATE_NEW_USER_SAGA, createUserSaga);
+export default function* authWatcher() {
+  yield takeEvery(sagaAuthActions.LOGIN_USER_SAGA, loginSaga);
+  yield takeEvery(sagaAuthActions.CREATE_NEW_USER_SAGA, createUserSaga);
 }

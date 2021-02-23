@@ -1,7 +1,6 @@
 import React from 'react';
-import CheckBox from '@react-native-community/checkbox';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {ICard} from '../typescript/interfaces';
+import {ICard} from '../utils/interfaces';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface ItemProps {

@@ -2,7 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {sagaActions} from '../saga/sagaActions';
+import {sagaCardActions} from '../store/card/actions';
 
 const CardEditScreen: React.FC = ({navigation, route}: any) => {
   const [state, setState] = useState({
@@ -14,7 +14,7 @@ const CardEditScreen: React.FC = ({navigation, route}: any) => {
 
   const editCard = () => {
     dispatch({
-      type: sagaActions.EDIT_CARD_SAGA,
+      type: sagaCardActions.EDIT_CARD_SAGA,
       payload: {
         cardId: route.params.id,
         body: {
@@ -26,7 +26,7 @@ const CardEditScreen: React.FC = ({navigation, route}: any) => {
       },
     });
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_CARDS_SAGA});
+      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
     }, 500);
     setState({title: '', description: ''});
     navigation.goBack();

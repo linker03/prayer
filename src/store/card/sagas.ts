@@ -1,16 +1,34 @@
 import {put, takeEvery, call, select} from 'redux-saga/effects';
-import Axios from 'axios';
-import {getAllCards} from '../redux/store';
-import {sagaActions} from './sagaActions';
+import {getAllCards} from './reducer';
+import {sagaCardActions} from './actions';
 import {getToken} from './selectors';
+import {callAPI} from '../../utils/callApi';
 
-let callAPI = async ({url, method, data, headers}) => {
-  return await Axios({
-    url,
-    method,
-    data,
-    headers,
-  });
+type cardDetails = {
+  title: string;
+  description: string;
+  checked: boolean;
+  column: number;
+};
+
+type createCardAction = {
+  type: string;
+  payload: cardDetails;
+};
+
+type editCardAction = {
+  type: string;
+  payload: {
+    cardId: number;
+    body: cardDetails;
+  };
+};
+
+type deleteCardAction = {
+  type: string;
+  payload: {
+    cardId: number;
+  };
 };
 
 export function* getAllCardsSaga() {
@@ -31,7 +49,7 @@ export function* getAllCardsSaga() {
   }
 }
 
-export function* createCardSaga(action) {
+export function* createCardSaga(action: createCardAction) {
   const token = yield select(getToken);
   console.log('ACTION', action);
   try {
@@ -51,7 +69,7 @@ export function* createCardSaga(action) {
   }
 }
 
-export function* editCardSaga(action) {
+export function* editCardSaga(action: editCardAction) {
   const token = yield select(getToken);
   console.log('ACTION', action);
   try {
@@ -70,7 +88,7 @@ export function* editCardSaga(action) {
   }
 }
 
-export function* deleteCardSaga(action) {
+export function* deleteCardSaga(action: deleteCardAction) {
   const token = yield select(getToken);
   try {
     yield call(() =>
@@ -88,8 +106,8 @@ export function* deleteCardSaga(action) {
 }
 
 export default function* cardWatcher() {
-  yield takeEvery(sagaActions.GET_CARDS_SAGA, getAllCardsSaga);
-  yield takeEvery(sagaActions.CREATE_CARDS_SAGA, createCardSaga);
-  yield takeEvery(sagaActions.EDIT_CARD_SAGA, editCardSaga);
-  yield takeEvery(sagaActions.DELETE_CARD_SAGA, deleteCardSaga);
+  yield takeEvery(sagaCardActions.GET_CARDS_SAGA, getAllCardsSaga);
+  yield takeEvery(sagaCardActions.CREATE_CARDS_SAGA, createCardSaga);
+  yield takeEvery(sagaCardActions.EDIT_CARD_SAGA, editCardSaga);
+  yield takeEvery(sagaCardActions.DELETE_CARD_SAGA, deleteCardSaga);
 }

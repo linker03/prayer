@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
-import {sagaActions} from '../saga/sagaActions';
+import {sagaAuthActions} from '../store/auth/actions';
+import {RootState} from '../store/store';
 
 interface IProps {
   navigation: any;
@@ -14,7 +14,7 @@ const SignInScreen: React.FC<IProps> = ({navigation}) => {
     password: '',
   });
 
-  const err = useSelector((state: RootState) => state.paramsStore.error);
+  const err = useSelector((state: RootState) => state.authStore.error);
 
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const SignInScreen: React.FC<IProps> = ({navigation}) => {
 
   const loginHandler = () => {
     dispatch({
-      type: sagaActions.LOGIN_USER_SAGA,
+      type: sagaAuthActions.LOGIN_USER_SAGA,
       payload: {email: state.email, password: state.password},
     });
   };

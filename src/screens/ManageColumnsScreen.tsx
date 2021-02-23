@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, Button, StyleSheet, TextInput} from 'react-native';
-import {ICard, IColumn} from '../typescript/interfaces';
-import {RootState} from '../redux/store';
-import CardItem from '../components/CardItem';
-import {sagaActions} from '../saga/sagaActions';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import store from '../redux/store';
+import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {IColumn} from '../utils/interfaces';
+import {RootState} from '../store/store';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {sagaColumnActions} from '../store/column/actions';
 
 // const Column:React.FC = () => {
 
@@ -28,34 +25,34 @@ const ManageColumnScreen: React.FC = () => {
 
   const createHandler = () => {
     dispatch({
-      type: sagaActions.CREATE_COLUMN_SAGA,
+      type: sagaColumnActions.CREATE_COLUMN_SAGA,
       payload: {title: title.columnTitle},
     });
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_COLUMNS_SAGA});
+      dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
       setTitle({columnTitle: ''});
     }, 500);
   };
 
   const editHandler = () => {
     dispatch({
-      type: sagaActions.EDIT_COLUMN_SAGA,
+      type: sagaColumnActions.EDIT_COLUMN_SAGA,
       payload: {columnId: state.editColumnId, title: state.title},
     });
 
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_COLUMNS_SAGA});
+      dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
       setState({editColumnId: 0, title: ''});
     }, 500);
   };
 
   const deleteHandler = (id: number) => {
     dispatch({
-      type: sagaActions.DELETE_COLUMN_SAGA,
+      type: sagaColumnActions.DELETE_COLUMN_SAGA,
       payload: {columnId: id},
     });
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_COLUMNS_SAGA});
+      dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
     }, 500);
   };
 

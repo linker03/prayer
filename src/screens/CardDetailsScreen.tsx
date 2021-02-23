@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
-import {RootState} from '../redux/store';
+import {RootState} from '../store/store';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {IComment} from '../typescript/interfaces';
+import {IComment} from '../utils/interfaces';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {sagaActions} from '../saga/sagaActions';
+import {sagaCardActions} from '../store/card/actions';
+import {sagaCommentActions} from '../store/comment/actions';
 
 type Props = {
   comment: IComment;
@@ -24,24 +25,24 @@ const CommentItem: React.FC<Props> = ({comment}) => {
 
   const deleteComment = () => {
     dispatch({
-      type: sagaActions.DELETE_COMMENT_SAGA,
+      type: sagaCommentActions.DELETE_COMMENT_SAGA,
       payload: {commentId: comment.id},
     });
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_CARDS_SAGA});
-      dispatch({type: sagaActions.GET_COMMENTS_SAGA});
+      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+      dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
     }, 500);
   };
 
   const editComment = () => {
     dispatch({
-      type: sagaActions.EDIT_COMMENT_SAGA,
+      type: sagaCommentActions.EDIT_COMMENT_SAGA,
       payload: {commentId: comment.id, body: state.body},
     });
 
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_CARDS_SAGA});
-      dispatch({type: sagaActions.GET_COMMENTS_SAGA});
+      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+      dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
       setState({onEdit: false, body: comment.body});
     }, 500);
   };
@@ -112,13 +113,13 @@ const CardDetailsScreen: React.FC = ({navigation, route}: any) => {
 
   const commentSubmit = () => {
     dispatch({
-      type: sagaActions.CREATE_COMMENT_SAGA,
+      type: sagaCommentActions.CREATE_COMMENT_SAGA,
       payload: {cardId: card.id, body: state.body},
     });
 
     setTimeout(() => {
-      dispatch({type: sagaActions.GET_CARDS_SAGA});
-      dispatch({type: sagaActions.GET_COMMENTS_SAGA});
+      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+      dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
       setState((state) => ({...state, body: ''}));
     }, 500);
   };

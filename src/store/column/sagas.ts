@@ -1,16 +1,22 @@
 import {put, takeEvery, call, select} from 'redux-saga/effects';
-import Axios from 'axios';
-import {getAllColumns} from '../redux/store';
-import {sagaActions} from './sagaActions';
+import {getAllColumns} from './reducer';
+import {sagaColumnActions} from './actions';
 import {getToken} from './selectors';
+import {callAPI} from '../../utils/callApi';
 
-let callAPI = async ({url, method, data, headers}) => {
-  return await Axios({
-    url,
-    method,
-    data,
-    headers,
-  });
+type createColumnAction = {
+  type: string;
+  payload: {title: string};
+};
+
+type editColumnAction = {
+  type: string;
+  payload: {columnId: number; title: string};
+};
+
+type deleteColumnAction = {
+  type: string;
+  payload: {columnId: number};
 };
 
 export function* getAllColumnsSaga() {
@@ -31,7 +37,7 @@ export function* getAllColumnsSaga() {
   }
 }
 
-export function* createColumnSaga(action) {
+export function* createColumnSaga(action: createColumnAction) {
   console.log('ACTION', action);
   const token = yield select(getToken);
   try {
@@ -54,7 +60,7 @@ export function* createColumnSaga(action) {
   }
 }
 
-export function* editColumnSaga(action) {
+export function* editColumnSaga(action: editColumnAction) {
   console.log('ACTION', action);
   const token = yield select(getToken);
   try {
@@ -77,7 +83,7 @@ export function* editColumnSaga(action) {
   }
 }
 
-export function* deleteColumnSaga(action) {
+export function* deleteColumnSaga(action: deleteColumnAction) {
   const token = yield select(getToken);
   try {
     const response = yield call(() =>
@@ -96,8 +102,8 @@ export function* deleteColumnSaga(action) {
 }
 
 export default function* columnWatcher() {
-  yield takeEvery(sagaActions.GET_COLUMNS_SAGA, getAllColumnsSaga);
-  yield takeEvery(sagaActions.CREATE_COLUMN_SAGA, createColumnSaga);
-  yield takeEvery(sagaActions.EDIT_COLUMN_SAGA, editColumnSaga);
-  yield takeEvery(sagaActions.DELETE_COLUMN_SAGA, deleteColumnSaga);
+  yield takeEvery(sagaColumnActions.GET_COLUMNS_SAGA, getAllColumnsSaga);
+  yield takeEvery(sagaColumnActions.CREATE_COLUMN_SAGA, createColumnSaga);
+  yield takeEvery(sagaColumnActions.EDIT_COLUMN_SAGA, editColumnSaga);
+  yield takeEvery(sagaColumnActions.DELETE_COLUMN_SAGA, deleteColumnSaga);
 }

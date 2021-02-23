@@ -2,7 +2,22 @@ import React from 'react';
 import {useState} from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {sagaActions} from '../saga/sagaActions';
+import {sagaCardActions} from '../store/card/actions';
+
+// function useCreateCard(state: any, columnId) {
+//   const dispatch = useDispatch()
+//   dispatch({
+//     type: sagaCardActions.CREATE_CARDS_SAGA,
+//     payload: {
+//       title: state.title,
+//       description: state.description,
+//       checked: false,
+//       column: route.params.columnId,
+//     },
+//   });
+//   dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+
+// }
 
 const CardCreateScreen: React.FC = ({navigation, route}: any) => {
   const [state, setState] = useState({
@@ -14,7 +29,7 @@ const CardCreateScreen: React.FC = ({navigation, route}: any) => {
 
   const createCard = () => {
     dispatch({
-      type: sagaActions.CREATE_CARDS_SAGA,
+      type: sagaCardActions.CREATE_CARDS_SAGA,
       payload: {
         title: state.title,
         description: state.description,
@@ -22,9 +37,7 @@ const CardCreateScreen: React.FC = ({navigation, route}: any) => {
         column: route.params.columnId,
       },
     });
-    setTimeout(() => {
-      dispatch({type: sagaActions.GET_CARDS_SAGA});
-    }, 500);
+    dispatch({type: sagaCardActions.GET_CARDS_SAGA});
     setState({title: '', description: ''});
     navigation.goBack();
   };

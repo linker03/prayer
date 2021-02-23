@@ -1,0 +1,4 @@
+export const sagaAuthActions = {
+  CREATE_NEW_USER_SAGA: 'CREATE_NEW_USER_SAGA',
+  LOGIN_USER_SAGA: 'LOGIN_USER_SAGA',
+};

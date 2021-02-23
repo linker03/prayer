@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {sagaActions} from '../saga/sagaActions';
+import {sagaAuthActions} from '../store/auth/actions';
 
 interface IProps {
   navigation: any;
@@ -22,7 +22,7 @@ const SignUpScreen: React.FC<IProps> = ({navigation}) => {
 
   const createUserHandler = () => {
     dispatch({
-      type: sagaActions.CREATE_NEW_USER_SAGA,
+      type: sagaAuthActions.CREATE_NEW_USER_SAGA,
       payload: {email: state.email, name: state.name, password: state.password},
     });
     navigation.navigate('SignIn');

@@ -1,16 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, Button, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {
   ICard,
   ColumnScreenRouteProp,
   ColumnScreenNavigationProp,
-} from '../typescript/interfaces';
-import {RootState} from '../redux/store';
+} from '../utils/interfaces';
+import {RootState} from '../store/store';
 import CardItem from '../components/CardItem';
-import {sagaActions} from '../saga/sagaActions';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import store from '../redux/store';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type Props = {
@@ -35,14 +32,6 @@ const ColumnScreen: React.FC = ({navigation, route}: any) => {
       {properCards.map((item: ICard, i: number) => {
         return <CardItem key={i} item={item} onPress={onItemPress} />;
       })}
-      {/* <Button
-        onPress={() => {
-          navigation.navigate('CardCreate', {
-            columnId: route.params.columnId,
-          });
-        }}
-        title="Create Card"
-      /> */}
       <TouchableOpacity
         style={styles.createButton}
         onPress={() => {

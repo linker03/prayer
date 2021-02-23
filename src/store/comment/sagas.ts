@@ -1,42 +1,23 @@
 import {put, takeEvery, call, select} from 'redux-saga/effects';
-import Axios from 'axios';
-import {getAllComments} from '../redux/store';
-import {sagaActions} from './sagaActions';
+import {getAllComments} from './reducer';
+import {sagaCommentActions} from './actions';
 import {getToken} from './selectors';
+import {callAPI} from '../../utils/callApi';
+import {getCurrentDate} from '../../utils/getCurrentDate';
 
-const getCurrentDate = () => {
-  const date = new Date();
-  const month = (date.getMonth() + 1).toString();
-  const day =
-    date.getDate().toString().length == 1
-      ? '0' + date.getDate().toString()
-      : date.getDate();
-  const hour =
-    date.getUTCHours().toString().length == 1
-      ? '0' + date.getUTCHours().toString()
-      : date.getUTCHours();
-  const minute =
-    date.getUTCMinutes().toString().length == 1
-      ? '0' + date.getUTCMinutes().toString()
-      : date.getUTCMinutes();
-  const seconds =
-    date.getUTCSeconds().toString().length == 1
-      ? '0' + date.getUTCSeconds().toString()
-      : date.getUTCSeconds();
-  const jsDate = `${date.getFullYear()}-${
-    month.length == 1 ? '0' + month : month
-  }-${day}T${hour}:${minute}:${seconds}.448+06:00`;
-
-  return jsDate;
+type createCommentAction = {
+  type: string;
+  payload: {cardId: number; body: string};
 };
 
-let callAPI = async ({url, method, data, headers}) => {
-  return await Axios({
-    url,
-    method,
-    data,
-    headers,
-  });
+type editCommentAction = {
+  type: string;
+  payload: {commentId: number; body: string};
+};
+
+type deleteCommentAction = {
+  type: string;
+  payload: {commentId: number};
 };
 
 export function* getAllCommentsSaga() {
@@ -57,7 +38,7 @@ export function* getAllCommentsSaga() {
   }
 }
 
-export function* createCommentSaga(action) {
+export function* createCommentSaga(action: createCommentAction) {
   console.log('ACTION', action);
   const token = yield select(getToken);
   try {
@@ -79,7 +60,7 @@ export function* createCommentSaga(action) {
   }
 }
 
-export function* editCommentSaga(action) {
+export function* editCommentSaga(action: editCommentAction) {
   console.log('ACTION', action);
   const token = yield select(getToken);
   try {
@@ -101,7 +82,7 @@ export function* editCommentSaga(action) {
   }
 }
 
-export function* deleteCommentSaga(action) {
+export function* deleteCommentSaga(action: deleteCommentAction) {
   const token = yield select(getToken);
   try {
     yield call(() =>
@@ -119,8 +100,8 @@ export function* deleteCommentSaga(action) {
 }
 
 export default function* commentWatcher() {
-  yield takeEvery(sagaActions.GET_COMMENTS_SAGA, getAllCommentsSaga);
-  yield takeEvery(sagaActions.CREATE_COMMENT_SAGA, createCommentSaga);
-  yield takeEvery(sagaActions.EDIT_COMMENT_SAGA, editCommentSaga);
-  yield takeEvery(sagaActions.DELETE_COMMENT_SAGA, deleteCommentSaga);
+  yield takeEvery(sagaCommentActions.GET_COMMENTS_SAGA, getAllCommentsSaga);
+  yield takeEvery(sagaCommentActions.CREATE_COMMENT_SAGA, createCommentSaga);
+  yield takeEvery(sagaCommentActions.EDIT_COMMENT_SAGA, editCommentSaga);
+  yield takeEvery(sagaCommentActions.DELETE_COMMENT_SAGA, deleteCommentSaga);
 }
