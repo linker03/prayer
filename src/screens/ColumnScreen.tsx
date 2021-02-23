@@ -1,23 +1,13 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {View, Text, StyleSheet} from 'react-native';
-import {
-  ICard,
-  ColumnScreenRouteProp,
-  ColumnScreenNavigationProp,
-} from '../utils/interfaces';
+import {ICard} from '../utils/interfaces';
 import {RootState} from '../store/store';
 import CardItem from '../components/CardItem';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-type Props = {
-  navigation: ColumnScreenNavigationProp;
-  route: ColumnScreenRouteProp;
-};
-
 const ColumnScreen: React.FC = ({navigation, route}: any) => {
   const cards = useSelector((state: RootState) => state.cardsStore.cards);
-  const dispatch = useDispatch();
 
   const properCards = cards.filter(
     (item: ICard) => item.columnId === route.params.columnId,

@@ -3,6 +3,7 @@ import {getAllCards} from './reducer';
 import {sagaCardActions} from './actions';
 import {getToken} from './selectors';
 import {callAPI} from '../../utils/callApi';
+import {refresh} from '../../utils/refresh';
 
 type cardDetails = {
   title: string;
@@ -63,7 +64,8 @@ export function* createCardSaga(action: createCardAction) {
         data: action.payload,
       }),
     );
-    console.log(JSON.stringify(response, null, 2));
+    const result = yield call(() => refresh('cards', token));
+    yield put(getAllCards(result.data));
   } catch (error) {
     console.log(error);
   }
@@ -71,7 +73,6 @@ export function* createCardSaga(action: createCardAction) {
 
 export function* editCardSaga(action: editCardAction) {
   const token = yield select(getToken);
-  console.log('ACTION', action);
   try {
     yield call(() =>
       callAPI({
@@ -83,6 +84,8 @@ export function* editCardSaga(action: editCardAction) {
         data: action.payload.body,
       }),
     );
+    const result = yield call(() => refresh('cards', token));
+    yield put(getAllCards(result.data));
   } catch (error) {
     console.log(error);
   }
@@ -100,6 +103,8 @@ export function* deleteCardSaga(action: deleteCardAction) {
         },
       }),
     );
+    const result = yield call(() => refresh('cards', token));
+    yield put(getAllCards(result.data));
   } catch (error) {
     console.log(error);
   }

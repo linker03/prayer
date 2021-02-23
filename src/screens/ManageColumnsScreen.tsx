@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Button} from 'react-native';
 import {IColumn} from '../utils/interfaces';
 import {RootState} from '../store/store';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {sagaColumnActions} from '../store/column/actions';
-
-// const Column:React.FC = () => {
-
-// }
+import {sagaAuthActions} from '../store/auth/actions';
 
 const ManageColumnScreen: React.FC = () => {
   const [state, setState] = useState({
@@ -28,10 +25,8 @@ const ManageColumnScreen: React.FC = () => {
       type: sagaColumnActions.CREATE_COLUMN_SAGA,
       payload: {title: title.columnTitle},
     });
-    setTimeout(() => {
-      dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
-      setTitle({columnTitle: ''});
-    }, 500);
+    dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
+    setTitle({columnTitle: ''});
   };
 
   const editHandler = () => {
@@ -39,11 +34,8 @@ const ManageColumnScreen: React.FC = () => {
       type: sagaColumnActions.EDIT_COLUMN_SAGA,
       payload: {columnId: state.editColumnId, title: state.title},
     });
-
-    setTimeout(() => {
-      dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
-      setState({editColumnId: 0, title: ''});
-    }, 500);
+    dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
+    setState({editColumnId: 0, title: ''});
   };
 
   const deleteHandler = (id: number) => {
@@ -51,9 +43,7 @@ const ManageColumnScreen: React.FC = () => {
       type: sagaColumnActions.DELETE_COLUMN_SAGA,
       payload: {columnId: id},
     });
-    setTimeout(() => {
-      dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
-    }, 500);
+    dispatch({type: sagaColumnActions.GET_COLUMNS_SAGA});
   };
 
   const renderColumn = (item: IColumn) => {
@@ -124,6 +114,9 @@ const ManageColumnScreen: React.FC = () => {
       <TouchableOpacity style={styles.createButton} onPress={createHandler}>
         <Text style={{color: 'white'}}>Create column</Text>
       </TouchableOpacity>
+      <Button
+        title="LOGOUT"
+        onPress={() => dispatch({type: sagaAuthActions.LOGOUT})}></Button>
     </View>
   );
 };

@@ -3,6 +3,7 @@ import {getAllColumns} from './reducer';
 import {sagaColumnActions} from './actions';
 import {getToken} from './selectors';
 import {callAPI} from '../../utils/callApi';
+import {refresh} from '../../utils/refresh';
 
 type createColumnAction = {
   type: string;
@@ -54,6 +55,8 @@ export function* createColumnSaga(action: createColumnAction) {
         },
       }),
     );
+    const result = yield call(() => refresh('columns', token));
+    yield put(getAllColumns(result.data));
     console.log('CREATE RESPONSE', JSON.stringify(response, null, 2));
   } catch (error) {
     console.log(error);
@@ -77,7 +80,8 @@ export function* editColumnSaga(action: editColumnAction) {
         },
       }),
     );
-    console.log('EDIT RESPONSE', JSON.stringify(response, null, 2));
+    const result = yield call(() => refresh('columns', token));
+    yield put(getAllColumns(result.data));
   } catch (error) {
     console.log(error);
   }
@@ -95,7 +99,8 @@ export function* deleteColumnSaga(action: deleteColumnAction) {
         },
       }),
     );
-    console.log('EDIT RESPONSE', JSON.stringify(response, null, 2));
+    const result = yield call(() => refresh('columns', token));
+    yield put(getAllColumns(result.data));
   } catch (error) {
     console.log(error);
   }

@@ -4,6 +4,8 @@ import {sagaCommentActions} from './actions';
 import {getToken} from './selectors';
 import {callAPI} from '../../utils/callApi';
 import {getCurrentDate} from '../../utils/getCurrentDate';
+import {refresh} from '../../utils/refresh';
+import {getAllCards} from '../card/reducer';
 
 type createCommentAction = {
   type: string;
@@ -55,6 +57,10 @@ export function* createCommentSaga(action: createCommentAction) {
         },
       }),
     );
+    const resultCard = yield call(() => refresh('cards', token));
+    yield put(getAllCards(resultCard.data));
+    const resultComment = yield call(() => refresh('comments', token));
+    yield put(getAllComments(resultComment.data));
   } catch (error) {
     console.log(error);
   }
@@ -77,6 +83,10 @@ export function* editCommentSaga(action: editCommentAction) {
         },
       }),
     );
+    const resultCard = yield call(() => refresh('cards', token));
+    yield put(getAllCards(resultCard.data));
+    const resultComment = yield call(() => refresh('comments', token));
+    yield put(getAllComments(resultComment.data));
   } catch (error) {
     console.log(error);
   }
@@ -94,6 +104,10 @@ export function* deleteCommentSaga(action: deleteCommentAction) {
         },
       }),
     );
+    const resultCard = yield call(() => refresh('cards', token));
+    yield put(getAllCards(resultCard.data));
+    const resultComment = yield call(() => refresh('comments', token));
+    yield put(getAllComments(resultComment.data));
   } catch (error) {
     console.log(error);
   }

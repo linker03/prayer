@@ -4,21 +4,6 @@ import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {sagaCardActions} from '../store/card/actions';
 
-// function useCreateCard(state: any, columnId) {
-//   const dispatch = useDispatch()
-//   dispatch({
-//     type: sagaCardActions.CREATE_CARDS_SAGA,
-//     payload: {
-//       title: state.title,
-//       description: state.description,
-//       checked: false,
-//       column: route.params.columnId,
-//     },
-//   });
-//   dispatch({type: sagaCardActions.GET_CARDS_SAGA});
-
-// }
-
 const CardCreateScreen: React.FC = ({navigation, route}: any) => {
   const [state, setState] = useState({
     title: '',
@@ -37,7 +22,7 @@ const CardCreateScreen: React.FC = ({navigation, route}: any) => {
         column: route.params.columnId,
       },
     });
-    dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+    // dispatch({type: sagaCardActions.GET_CARDS_SAGA});
     setState({title: '', description: ''});
     navigation.goBack();
   };

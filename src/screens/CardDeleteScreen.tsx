@@ -1,6 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {sagaCardActions} from '../store/card/actions';
 
@@ -11,9 +10,7 @@ const CardDeleteScreen: React.FC = ({navigation, route}: any) => {
       type: sagaCardActions.DELETE_CARD_SAGA,
       payload: {cardId: route.params.id},
     });
-    setTimeout(() => {
-      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
-    }, 500);
+    // dispatch({type: sagaCardActions.GET_CARDS_SAGA});
     navigation.goBack();
     navigation.goBack();
   };

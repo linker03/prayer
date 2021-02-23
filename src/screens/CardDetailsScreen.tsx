@@ -28,10 +28,8 @@ const CommentItem: React.FC<Props> = ({comment}) => {
       type: sagaCommentActions.DELETE_COMMENT_SAGA,
       payload: {commentId: comment.id},
     });
-    setTimeout(() => {
-      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
-      dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
-    }, 500);
+    // dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+    // dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
   };
 
   const editComment = () => {
@@ -39,12 +37,9 @@ const CommentItem: React.FC<Props> = ({comment}) => {
       type: sagaCommentActions.EDIT_COMMENT_SAGA,
       payload: {commentId: comment.id, body: state.body},
     });
-
-    setTimeout(() => {
-      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
-      dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
-      setState({onEdit: false, body: comment.body});
-    }, 500);
+    // dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+    // dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
+    setState({onEdit: false, body: comment.body});
   };
 
   const renderComment = () => (
@@ -116,12 +111,9 @@ const CardDetailsScreen: React.FC = ({navigation, route}: any) => {
       type: sagaCommentActions.CREATE_COMMENT_SAGA,
       payload: {cardId: card.id, body: state.body},
     });
-
-    setTimeout(() => {
-      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
-      dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
-      setState((state) => ({...state, body: ''}));
-    }, 500);
+    // dispatch({type: sagaCardActions.GET_CARDS_SAGA});
+    // dispatch({type: sagaCommentActions.GET_COMMENTS_SAGA});
+    setState((state) => ({...state, body: ''}));
   };
 
   return (

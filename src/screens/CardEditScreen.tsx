@@ -25,9 +25,7 @@ const CardEditScreen: React.FC = ({navigation, route}: any) => {
         },
       },
     });
-    setTimeout(() => {
-      dispatch({type: sagaCardActions.GET_CARDS_SAGA});
-    }, 500);
+    // dispatch({type: sagaCardActions.GET_CARDS_SAGA});
     setState({title: '', description: ''});
     navigation.goBack();
     navigation.goBack();
